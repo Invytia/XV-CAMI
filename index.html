@@ -264,7 +264,6 @@
             text-align: center;
             position: relative;
             background: rgba(65, 5, 5, 0.65); 
-            /* Se aumentó significativamente el brillo general (dorado) de la tarjeta principal */
             box-shadow: 0 0 50px rgba(50, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.35);
             backdrop-filter: blur(15px);
             border-image: linear-gradient(to bottom, var(--main-primary), rgba(212,175,55,0.4), var(--main-primary)) 1;
@@ -1162,30 +1161,38 @@
     </main>
 
     <script>
-        // Variables globales para el manejo dinámico de pases
+        // ---------------------------------------------
+        // CONFIGURACIÓN DE TELÉFONOS
+        // ---------------------------------------------
+        const numMama = "528180752205"; 
+        const numPapa = "528183660718"; // PON AQUÍ EL NÚMERO DEL PAPÁ
+        let telefonoContacto = numMama; // Por defecto se mandará a la mamá
+
+        // Variables globales
         let pasesAsignados = 0;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Lógica para leer el parámetro '?p=' de la URL
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // 1. LÓGICA DE PASES
             let parametroPases = urlParams.get('p') || urlParams.get('pases');
-
-            // Convertir a número entero
             if (parametroPases && !isNaN(parametroPases)) {
                 pasesAsignados = parseInt(parametroPases);
             }
 
-            // Si hay un número válido de pases, mostramos la sección
             if (pasesAsignados > 0) {
                 document.getElementById('pases-section').style.display = 'block';
-                
-                // Actualizar el número gigante en el boleto
                 document.getElementById('ticket-count').innerText = pasesAsignados + (pasesAsignados === 1 ? " PASE" : " PASES");
                 
-                // Limitar el input del RSVP al número máximo del link
                 const rsvpGuestsInput = document.getElementById('rsvp-guests');
                 rsvpGuestsInput.max = pasesAsignados;
                 rsvpGuestsInput.placeholder = `¿Cuántas personas asistirán? (Máximo ${pasesAsignados})`;
+            }
+
+            // 2. LÓGICA PARA ELEGIR AL PAPÁ O A LA MAMÁ
+            let contacto = urlParams.get('c') || urlParams.get('contacto');
+            if (contacto && contacto.toLowerCase() === 'papa') {
+                telefonoContacto = numPapa;
             }
 
             // ---------------------------------------------
@@ -1239,7 +1246,7 @@
             setTimeout(() => {
                 screen.classList.add('fade-out');
                 document.body.classList.add('content-active');
-                createFirefliesAndButterflies(); // Iniciar partículas animadas
+                createFirefliesAndButterflies(); 
                 
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
@@ -1257,7 +1264,7 @@
             const container = document.getElementById('fireflies-container');
             
             // Generar Chispas Doradas
-            const firefliesCount = 75; // Aumentado para dar "más brillos"
+            const firefliesCount = 75; 
             for (let i = 0; i < firefliesCount; i++) {
                 const firefly = document.createElement('div');
                 firefly.classList.add('firefly');
@@ -1283,7 +1290,7 @@
                 const butterfly = document.createElement('div');
                 butterfly.classList.add('butterfly');
                 
-                const size = Math.random() * 12 + 10; // Mariposas pequeñas (10px - 22px)
+                const size = Math.random() * 12 + 10; 
                 const left = Math.random() * 100;
                 const animDuration = Math.random() * 12 + 8; 
                 const animDelay = Math.random() * 8;
@@ -1326,7 +1333,6 @@
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }, 1000);
 
-        // Mostrar/Ocultar campo de cantidad de personas para confirmar
         function toggleGuestInput() {
             const status = document.getElementById("rsvp-status").value;
             const guestInput = document.getElementById("rsvp-guests");
@@ -1339,7 +1345,7 @@
             }
         }
 
-        // Envío de WhatsApp - RSVP
+        // Envío de WhatsApp - RSVP (Usa la variable telefonoContacto)
         function sendRSVP() {
             const name = document.getElementById("rsvp-name").value.trim();
             const status = document.getElementById("rsvp-status").value;
@@ -1373,11 +1379,10 @@
                 message = encodeURIComponent(`¡Hola! Soy ${name}. Lamentablemente no podré asistir a los XV años de Camila. ¡Muchas gracias por la invitación!`);
             }
 
-            const phone = "528180752205";
-            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            window.open(`https://wa.me/${telefonoContacto}?text=${message}`, '_blank');
         }
 
-        // Envío de WhatsApp - Muro de Deseos
+        // Envío de WhatsApp - Muro de Deseos (Usa la variable telefonoContacto)
         function sendWish() {
             const name = document.getElementById("wish-name").value.trim();
             const wish = document.getElementById("wish-message").value.trim();
@@ -1386,9 +1391,8 @@
                 alert("Por favor, ingresa tu nombre y un mensaje.");
                 return;
             }
-            const phone = "528180752205";
             const message = encodeURIComponent(`Hola Camila, soy ${name}. Te dejo este mensaje con mucho cariño:\n\n"${wish}"`);
-            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            window.open(`https://wa.me/${telefonoContacto}?text=${message}`, '_blank');
         }
     </script>
 </body>
