@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Pinyon+Script&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta Vinos y Dorado (Se redujo el negro) */
-            --bg-dark: #4a0404; /* Rojo vino vibrante y profundo */
+            /* Paleta Vinos y Dorado */
+            --bg-dark: #4a0404; 
             --bg-gradient: linear-gradient(135deg, #590505 0%, #2e0000 100%);
             --main-primary: #d4af37; /* Dorado elegante */
             --main-secondary: #ff3333; /* Rojo brillante para acentos */
@@ -17,7 +17,7 @@
             --magic-glow: rgba(212, 175, 55, 0.6); /* Resplandor dorado */
             --particle-glow: rgba(212, 175, 55, 0.8);
             
-            /* Fondos intercalados para secciones, usando más tonos rubí y oro */
+            /* Fondos intercalados para secciones */
             --section-bg-1: linear-gradient(145deg, rgba(100, 10, 10, 0.75), rgba(70, 5, 5, 0.85));
             --section-bg-2: linear-gradient(145deg, rgba(212, 175, 55, 0.15), rgba(110, 10, 10, 0.7));
             --section-bg-3: rgba(140, 15, 15, 0.45);
@@ -39,14 +39,13 @@
             scroll-behavior: smooth;
         }
 
-        /* Capa de Fondo Fija (Tintes Rojos en lugar de Negro) */
+        /* Capa de Fondo Fija */
         #fixed-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Degradado de vino a rojo rubí oscuro */
             background: linear-gradient(rgba(80, 10, 10, 0.75), rgba(40, 0, 0, 0.9)), url('assets/fondo.jpg') no-repeat center center;
             background-size: cover;
             z-index: -1; 
@@ -70,7 +69,7 @@
         .scroll-anim.fade-in { transform: translateY(35px); }
         .scroll-anim.slide-right { transform: translateX(-40px); }
         .scroll-anim.slide-left { transform: translateX(40px); }
-        .scroll-anim.scale-up { transform: scale(0.9); } /* Nueva animación para fotos */
+        .scroll-anim.scale-up { transform: scale(0.9); } 
 
         .scroll-anim.visible {
             opacity: 1;
@@ -196,7 +195,6 @@
             border: 2px solid #ff6666;
         }
 
-        /* Nuevo icono del sello (Corona/Loto elegante en lugar de estrella) */
         .wax-seal svg {
             width: 32px;
             height: 32px;
@@ -265,10 +263,11 @@
             padding: 0;
             text-align: center;
             position: relative;
-            background: rgba(65, 5, 5, 0.6); /* Vino semi-translúcido en lugar de negro */
-            box-shadow: 0 0 50px rgba(50, 0, 0, 0.8);
+            background: rgba(65, 5, 5, 0.65); 
+            /* Se aumentó significativamente el brillo general (dorado) de la tarjeta principal */
+            box-shadow: 0 0 50px rgba(50, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.35);
             backdrop-filter: blur(15px);
-            border-image: linear-gradient(to bottom, var(--main-primary), rgba(212,175,55,0.3), var(--main-primary)) 1;
+            border-image: linear-gradient(to bottom, var(--main-primary), rgba(212,175,55,0.4), var(--main-primary)) 1;
             margin-bottom: 40px;
             z-index: 3;
         }
@@ -304,7 +303,7 @@
             color: var(--main-primary);
             margin-bottom: 25px;
             line-height: 1;
-            animation: titleGlow 3.5s infinite alternate; /* Animación de pulso añadida */
+            animation: titleGlow 3.5s infinite alternate; 
         }
 
         .divider {
@@ -584,7 +583,6 @@
         }
 
         .map-container iframe {
-            /* Tono más cálido para el mapa, acorde a la paleta */
             filter: grayscale(30%) sepia(40%) hue-rotate(330deg) contrast(110%);
         }
 
@@ -601,7 +599,7 @@
         .form-input {
             width: 100%;
             padding: 16px;
-            background: rgba(90, 10, 10, 0.5); /* Rojizo oscuro en vez de negro */
+            background: rgba(90, 10, 10, 0.5); 
             border: 1px solid rgba(212, 175, 55, 0.6);
             color: var(--text-light);
             font-family: 'Montserrat', sans-serif;
@@ -651,7 +649,7 @@
             position: absolute;
             width: 50px;
             height: 50px;
-            background: rgba(65, 5, 5, 1); /* Coincide con el fondo del frame */
+            background: rgba(65, 5, 5, 1); 
             border-radius: 50%;
             top: 50%;
             transform: translateY(-50%);
@@ -696,7 +694,7 @@
             font-weight: 500;
         }
 
-        /* Chispas/Partículas Animadas */
+        /* Chispas/Partículas y Mariposas Animadas */
         #fireflies-container {
             position: fixed;
             top: 0;
@@ -714,8 +712,36 @@
             border-radius: 50%;
             pointer-events: none;
             box-shadow: 0 0 15px 4px var(--particle-glow);
-            animation: float-around infinite ease-in-out;
+            animation: float-around infinite linear;
             opacity: 0;
+        }
+
+        /* CSS para Mariposas */
+        .butterfly {
+            position: absolute;
+            pointer-events: none;
+            z-index: 105;
+            animation: float-around-butterfly infinite linear;
+            opacity: 0;
+        }
+        
+        .butterfly svg {
+            fill: #ff3333;
+            animation: flap 0.15s infinite alternate ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(255, 51, 51, 0.8));
+            transform-origin: center;
+        }
+        
+        @keyframes flap {
+            0% { transform: scaleX(1); }
+            100% { transform: scaleX(0.1); }
+        }
+        
+        @keyframes float-around-butterfly {
+            0% { transform: translateY(0) translateX(0) rotate(-10deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-100vh) translateX(50px) rotate(15deg) scale(1.2); opacity: 0; }
         }
 
         /* Sticky Music Button */
@@ -811,7 +837,6 @@
         <div class="envelope-wrapper" onclick="openEnvelope()">
             <div class="front-flap"></div>
             <div class="wax-seal">
-                <!-- NUEVO SELLO: Corona/Flor de loto elegante -->
                 <svg viewBox="0 0 24 24">
                     <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.55 18.55 20 18 20H6C5.45 20 5 19.55 5 19V18H19V19Z"/>
                 </svg>
@@ -995,7 +1020,11 @@
             <!-- SECCIÓN VESTIMENTA Y REGALOS -->
             <div class="info-block bg-style-1 scroll-anim slide-right">
                 <div class="info-label">Código de Vestimenta</div>
-                <div class="info-value-main" style="font-size: 30px; margin-bottom: 12px;">Etiqueta</div>
+                
+                <!-- Icono de Vestimenta Agregado -->
+                <img src="assets/iconos.png" alt="Icono Vestimenta" style="width: 70px; margin: 15px auto 20px; display: block; filter: drop-shadow(0 0 10px var(--magic-glow));">
+                
+                <div class="info-value-main" style="font-size: 30px; margin-bottom: 12px;">Formal</div>
                 <div style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: var(--text-light); margin-bottom: 15px; font-weight: 500;">Color de la noche: <span style="color: var(--main-primary); font-weight: bold; text-transform: uppercase;">Negro</span></div>
                 
                 <img src="assets/foto6.jpg" alt="Camila Estilo" class="invitation-photo scroll-anim scale-up" style="margin-bottom: 35px;">
@@ -1035,7 +1064,7 @@
 
                 <div class="info-label" style="margin-top: 25px;">Captura el Momento</div>
                 
-                <!-- NUEVO ICONO: Cámara fotográfica -->
+                <!-- NUEVO ICONO: Cámara Fotográfica -->
                 <svg viewBox="0 0 24 24" style="width: 55px; height: 55px; fill: var(--main-primary); margin: 15px 0; filter: drop-shadow(0 0 10px var(--magic-glow));">
                     <circle cx="12" cy="12" r="3.2"/>
                     <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
@@ -1210,7 +1239,7 @@
             setTimeout(() => {
                 screen.classList.add('fade-out');
                 document.body.classList.add('content-active');
-                createFireflies();
+                createFirefliesAndButterflies(); // Iniciar partículas animadas
                 
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
@@ -1223,19 +1252,20 @@
             }, 1200);
         }
 
-        // Sistema de Partículas/Chispas
-        function createFireflies() {
+        // Sistema Combinado de Chispas y Mariposas
+        function createFirefliesAndButterflies() {
             const container = document.getElementById('fireflies-container');
-            const count = 45; 
             
-            for (let i = 0; i < count; i++) {
+            // Generar Chispas Doradas
+            const firefliesCount = 75; // Aumentado para dar "más brillos"
+            for (let i = 0; i < firefliesCount; i++) {
                 const firefly = document.createElement('div');
                 firefly.classList.add('firefly');
                 
-                const size = Math.random() * 5 + 2;
+                const size = Math.random() * 6 + 2;
                 const left = Math.random() * 100;
-                const animDuration = Math.random() * 8 + 6;
-                const animDelay = Math.random() * 6;
+                const animDuration = Math.random() * 8 + 5;
+                const animDelay = Math.random() * 5;
                 
                 firefly.style.width = `${size}px`;
                 firefly.style.height = `${size}px`;
@@ -1245,6 +1275,27 @@
                 firefly.style.animationDelay = `${animDelay}s`;
                 
                 container.appendChild(firefly);
+            }
+
+            // Generar Mariposas Rojas Pequeñas
+            const butterfliesCount = 18; 
+            for (let i = 0; i < butterfliesCount; i++) {
+                const butterfly = document.createElement('div');
+                butterfly.classList.add('butterfly');
+                
+                const size = Math.random() * 12 + 10; // Mariposas pequeñas (10px - 22px)
+                const left = Math.random() * 100;
+                const animDuration = Math.random() * 12 + 8; 
+                const animDelay = Math.random() * 8;
+                
+                butterfly.style.left = `${left}%`;
+                butterfly.style.bottom = `-50px`;
+                butterfly.style.animationDuration = `${animDuration}s`;
+                butterfly.style.animationDelay = `${animDelay}s`;
+                
+                butterfly.innerHTML = `<svg viewBox="0 0 24 24" style="width: ${size}px; height: ${size}px;"><path d="M12,2.2c0,0-1.7,3.6-5.4,3.6S1.1,3,1.1,3s2,4.3,4,5.5c-2.4,0.6-5.2,2.6-4.5,5.5s4,2.1,6.5,1 c2.2-0.9,3.7-2.7,4.9-5.1c1.2,2.4,2.7,4.2,4.9,5.1c2.5,1.1,5.8-0.8,6.5-5.5s-2.1-4.9-4.5-5.5c2-1.2,4-5.5,4-5.5s-3.7,2.8-5.5,2.8 S12,2.2,12,2.2z"/></svg>`;
+                
+                container.appendChild(butterfly);
             }
         }
 
