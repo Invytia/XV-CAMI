@@ -7,20 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Pinyon+Script&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta Rojo y Dorado Mejorada */
-            --bg-dark: #2b0000; /* Vino profundo */
-            --bg-gradient: linear-gradient(135deg, #3d0000 0%, #1a0000 100%);
+            /* Paleta Vinos y Dorado (Se redujo el negro) */
+            --bg-dark: #4a0404; /* Rojo vino vibrante y profundo */
+            --bg-gradient: linear-gradient(135deg, #590505 0%, #2e0000 100%);
             --main-primary: #d4af37; /* Dorado elegante */
             --main-secondary: #ff3333; /* Rojo brillante para acentos */
             --text-light: #ffffff; 
-            --text-muted: #f0e6e6; 
+            --text-muted: #f9ecec; 
             --magic-glow: rgba(212, 175, 55, 0.6); /* Resplandor dorado */
             --particle-glow: rgba(212, 175, 55, 0.8);
             
-            /* Fondos intercalados para secciones */
-            --section-bg-1: linear-gradient(145deg, rgba(74, 0, 0, 0.85), rgba(43, 0, 0, 0.95));
-            --section-bg-2: linear-gradient(145deg, rgba(212, 175, 55, 0.08), rgba(90, 0, 0, 0.6));
-            --section-bg-3: rgba(122, 0, 0, 0.3);
+            /* Fondos intercalados para secciones, usando más tonos rubí y oro */
+            --section-bg-1: linear-gradient(145deg, rgba(100, 10, 10, 0.75), rgba(70, 5, 5, 0.85));
+            --section-bg-2: linear-gradient(145deg, rgba(212, 175, 55, 0.15), rgba(110, 10, 10, 0.7));
+            --section-bg-3: rgba(140, 15, 15, 0.45);
         }
 
         * {
@@ -29,7 +29,6 @@
             padding: 0;
         }
 
-        /* CORRECCIÓN: min-height en lugar de height: 100% para liberar el scroll */
         body, html {
             width: 100%;
             min-height: 100vh; 
@@ -40,16 +39,17 @@
             scroll-behavior: smooth;
         }
 
-        /* Capa de Fondo Fija (Rojo Profundo) */
+        /* Capa de Fondo Fija (Tintes Rojos en lugar de Negro) */
         #fixed-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(rgba(43, 0, 0, 0.85), rgba(26, 0, 0, 0.9)), url('assets/fondo.jpg') no-repeat center center;
+            /* Degradado de vino a rojo rubí oscuro */
+            background: linear-gradient(rgba(80, 10, 10, 0.75), rgba(40, 0, 0, 0.9)), url('assets/fondo.jpg') no-repeat center center;
             background-size: cover;
-            z-index: -1; /* CORRECCIÓN: Z-index negativo para no estorbar al contenido */
+            z-index: -1; 
             opacity: 0;
             transition: opacity 1.5s ease-out 0.6s;
         }
@@ -59,28 +59,33 @@
         }
 
         /* ------------------------------------------- */
-        /* ANIMACIONES DE ENTRADA (CORREGIDAS) */
+        /* ANIMACIONES ENTRADAS Y HOVERS */
         /* ------------------------------------------- */
         .scroll-anim {
             opacity: 0;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: opacity, transform;
         }
 
-        .scroll-anim.fade-in { transform: translateY(30px); }
+        .scroll-anim.fade-in { transform: translateY(35px); }
         .scroll-anim.slide-right { transform: translateX(-40px); }
         .scroll-anim.slide-left { transform: translateX(40px); }
+        .scroll-anim.scale-up { transform: scale(0.9); } /* Nueva animación para fotos */
 
-        /* Clase añadida vía Javascript cuando entra en pantalla */
         .scroll-anim.visible {
             opacity: 1;
-            transform: translateY(0) translateX(0);
+            transform: translateY(0) translateX(0) scale(1);
         }
 
         .delay-1 { transition-delay: 0.15s; }
         .delay-2 { transition-delay: 0.3s; }
         .delay-3 { transition-delay: 0.45s; }
 
+        @keyframes titleGlow {
+            0% { text-shadow: 0 4px 15px rgba(60, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.3); }
+            50% { text-shadow: 0 4px 15px rgba(60, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.8); }
+            100% { text-shadow: 0 4px 15px rgba(60, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.3); }
+        }
 
         /* Estilos del Sobre Animado */
         #envelope-screen {
@@ -88,7 +93,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* Asegura que cubra la pantalla completa */
+            height: 100vh;
             background: var(--bg-gradient);
             z-index: 1000;
             display: flex;
@@ -108,7 +113,7 @@
             position: relative;
             cursor: pointer;
             transform: scale(0.9);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .envelope-wrapper:hover {
@@ -119,10 +124,10 @@
             position: relative;
             width: 340px;
             height: 240px;
-            background: #8a0000; 
+            background: #9a0d0d; 
             border-radius: 0 0 8px 8px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(50,0,0,0.9);
+            border: 1px solid rgba(212, 175, 55, 0.5);
         }
 
         .envelope::before {
@@ -132,9 +137,9 @@
             right: 0;
             width: 0;
             height: 0;
-            border-right: 170px solid #a30000; 
+            border-right: 170px solid #b31212; 
             border-top: 120px solid transparent;
-            border-bottom: 120px solid #a30000;
+            border-bottom: 120px solid #b31212;
             border-radius: 0 0 8px 0;
             z-index: 2;
         }
@@ -146,9 +151,9 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 170px solid #ba0000; 
+            border-left: 170px solid #cc1818; 
             border-top: 120px solid transparent;
-            border-bottom: 120px solid #ba0000;
+            border-bottom: 120px solid #cc1818;
             border-radius: 0 0 0 8px;
             z-index: 2;
         }
@@ -161,11 +166,11 @@
             height: 0;
             border-left: 170px solid transparent;
             border-right: 170px solid transparent;
-            border-top: 130px solid #d10000; 
+            border-top: 130px solid #e61c1c; 
             transform-origin: top;
             transition: transform 0.6s ease 0.2s;
             z-index: 4;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 5px 10px rgba(60,0,0,0.5));
         }
 
         .envelope-wrapper.open .front-flap {
@@ -180,23 +185,24 @@
             transform: translateX(-50%);
             width: 65px;
             height: 65px;
-            background: radial-gradient(circle, #ff1a1a 0%, #9a0000 100%);
+            background: radial-gradient(circle, #ff3333 0%, #b30000 100%);
             border-radius: 50%;
             z-index: 5;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.5), 0 0 15px var(--magic-glow);
+            box-shadow: 0 4px 15px rgba(60,0,0,0.7), inset 0 2px 5px rgba(255,100,100,0.5), 0 0 15px var(--magic-glow);
             transition: transform 0.4s ease, opacity 0.4s ease 0.4s;
-            border: 2px solid #ff4d4d;
+            border: 2px solid #ff6666;
         }
 
+        /* Nuevo icono del sello (Corona/Loto elegante en lugar de estrella) */
         .wax-seal svg {
-            width: 35px;
-            height: 35px;
-            fill: #d4af37;
+            width: 32px;
+            height: 32px;
+            fill: #d4af37; 
             opacity: 1;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 2px 2px rgba(80,0,0,0.8));
         }
 
         .envelope-wrapper.open .wax-seal {
@@ -214,7 +220,7 @@
             color: var(--main-primary);
             letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(40,0,0,0.9);
             font-weight: bold;
         }
 
@@ -240,7 +246,7 @@
             align-items: center;
             padding: 40px 15px;
             opacity: 0;
-            pointer-events: none; /* Previene interacción antes de abrir */
+            pointer-events: none;
             transform: translateY(20px);
             transition: opacity 1.5s ease-out 0.6s, transform 1.5s ease-out 0.6s;
             z-index: 2;
@@ -259,10 +265,10 @@
             padding: 0;
             text-align: center;
             position: relative;
-            background: rgba(43, 0, 0, 0.65);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+            background: rgba(65, 5, 5, 0.6); /* Vino semi-translúcido en lugar de negro */
+            box-shadow: 0 0 50px rgba(50, 0, 0, 0.8);
             backdrop-filter: blur(15px);
-            border-image: linear-gradient(to bottom, var(--main-primary), rgba(212,175,55,0.2), var(--main-primary)) 1;
+            border-image: linear-gradient(to bottom, var(--main-primary), rgba(212,175,55,0.3), var(--main-primary)) 1;
             margin-bottom: 40px;
             z-index: 3;
         }
@@ -270,8 +276,8 @@
         /* Cabecera Principal (Hero) */
         .hero-section {
             padding: 50px 30px 40px;
-            background: linear-gradient(180deg, rgba(84,0,0,0.9) 0%, rgba(43,0,0,0.4) 100%);
-            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            background: linear-gradient(180deg, rgba(100,10,10,0.8) 0%, rgba(60,5,5,0.3) 100%);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
         }
 
         .lotus-header { margin-bottom: 20px; }
@@ -279,7 +285,7 @@
             width: 75px;
             height: 75px;
             fill: var(--main-primary);
-            filter: drop-shadow(0 0 10px var(--magic-glow));
+            filter: drop-shadow(0 0 12px var(--magic-glow));
         }
 
         .section-tag {
@@ -294,11 +300,11 @@
 
         .main-title {
             font-family: 'Pinyon Script', cursive;
-            font-size: 85px; 
+            font-size: 90px; 
             color: var(--main-primary);
             margin-bottom: 25px;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
             line-height: 1;
+            animation: titleGlow 3.5s infinite alternate; /* Animación de pulso añadida */
         }
 
         .divider {
@@ -309,7 +315,7 @@
         }
         
         .divider-light {
-            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.5), transparent);
             margin: 25px auto;
             height: 2px;
             width: 80%;
@@ -323,8 +329,8 @@
 
         .bg-style-1 {
             background: var(--section-bg-1);
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .bg-style-2 {
@@ -333,32 +339,32 @@
 
         .bg-style-3 {
             background: var(--section-bg-3);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 25px rgba(60,0,0,0.6);
         }
 
         .info-label {
             font-family: 'Cinzel', serif;
-            font-size: 15px; 
+            font-size: 16px; 
             letter-spacing: 3px;
             color: var(--main-primary);
             text-transform: uppercase;
             margin-bottom: 15px;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 5px rgba(40,0,0,0.8);
         }
 
         .info-value-main {
             font-family: 'Cinzel', serif;
-            font-size: 30px; 
+            font-size: 32px; 
             font-weight: 700;
             color: var(--text-light);
             letter-spacing: 2px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.9);
+            text-shadow: 0 3px 6px rgba(40,0,0,0.9);
         }
 
         .names-list {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px; 
+            font-size: 30px; 
             color: var(--text-light);
             margin: 8px 0;
             letter-spacing: 1px;
@@ -367,23 +373,29 @@
 
         .phrase-elegant {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 24px; 
+            font-size: 26px; 
             color: var(--text-light);
             line-height: 1.5;
             padding: 0 10px;
             font-style: italic;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 4px rgba(40,0,0,0.8);
         }
 
-        /* Imágenes */
+        /* Imágenes con Hover Effect 3D */
         .invitation-photo {
             width: 100%;
             height: auto;
             border-radius: 12px;
             border: 2px solid var(--main-primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 25px rgba(40,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2);
             margin: 25px 0;
-            filter: contrast(115%) saturate(110%);
+            filter: contrast(110%) saturate(115%);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s ease;
+        }
+        
+        .invitation-photo:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(40,0,0,1), 0 0 25px rgba(212, 175, 55, 0.5);
         }
 
         .hero-photo {
@@ -398,16 +410,16 @@
             align-items: center; 
             margin-bottom: 15px; 
             text-align: left; 
-            background: linear-gradient(90deg, rgba(74,0,0,0.8), rgba(0,0,0,0.3)); 
+            background: linear-gradient(90deg, rgba(120,15,15,0.7), rgba(60,5,5,0.4)); 
             padding: 15px; 
             border-radius: 8px; 
             border-left: 4px solid var(--main-primary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4); 
-            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(40,0,0,0.5); 
+            transition: transform 0.4s ease, background 0.4s ease;
         }
         .itinerary-item:hover {
-            transform: translateX(5px);
-            background: linear-gradient(90deg, rgba(122,0,0,0.9), rgba(43,0,0,0.5));
+            transform: translateX(8px);
+            background: linear-gradient(90deg, rgba(150,20,20,0.8), rgba(80,10,10,0.6));
         }
         .itinerary-time { 
             font-family: 'Cinzel', serif; 
@@ -438,12 +450,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(74, 0, 0, 0.6));
-            border: 1px solid rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(100, 10, 10, 0.7));
+            border: 1px solid rgba(212, 175, 55, 0.6);
             border-radius: 10px;
             padding: 15px 10px;
             width: 75px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(50,0,0,0.6);
         }
 
         .countdown-number {
@@ -451,7 +463,7 @@
             font-size: 28px;
             color: var(--text-light);
             font-weight: bold;
-            text-shadow: 0 0 10px var(--magic-glow);
+            text-shadow: 0 0 12px var(--magic-glow);
         }
 
         .countdown-label {
@@ -467,11 +479,11 @@
         .calendar-container {
             max-width: 340px;
             margin: 0 auto 25px auto;
-            background: rgba(43, 0, 0, 0.8);
+            background: rgba(80, 10, 10, 0.7);
             padding: 25px;
             border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 25px rgba(50,0,0,0.8);
         }
 
         .calendar-month {
@@ -482,7 +494,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 4px rgba(40,0,0,0.8);
         }
 
         .calendar-grid {
@@ -496,7 +508,7 @@
             color: var(--main-primary);
             font-weight: bold;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
         }
 
         .calendar-day {
@@ -511,7 +523,7 @@
 
         .calendar-day.active {
             background-color: var(--main-primary);
-            color: #2b0000;
+            color: #4a0404;
             border-radius: 50%;
             font-weight: bold;
             box-shadow: 0 0 15px var(--magic-glow);
@@ -520,10 +532,10 @@
 
         .calendar-day.empty { color: transparent; pointer-events: none; }
 
-        /* Botones Generales */
+        /* Botones Generales Animados */
         .btn-gold {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(122, 0, 0, 0.6));
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(150, 15, 15, 0.7));
             color: #fff;
             border: 2px solid var(--main-primary);
             padding: 15px 30px;
@@ -535,19 +547,19 @@
             text-decoration: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             margin-top: 15px;
             width: 100%;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.9);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            text-shadow: 0 2px 5px rgba(40,0,0,0.9);
+            box-shadow: 0 5px 15px rgba(50,0,0,0.6);
         }
 
         .btn-gold:hover {
             background: var(--main-primary);
-            color: #1a0000;
-            box-shadow: 0 0 25px var(--magic-glow);
+            color: #2b0000;
+            box-shadow: 0 10px 25px var(--magic-glow);
             text-shadow: none;
-            transform: translateY(-3px);
+            transform: translateY(-4px) scale(1.02);
         }
 
         /* Mapas e Iframes */
@@ -559,7 +571,7 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.7);
+            box-shadow: 0 10px 20px rgba(50,0,0,0.8);
         }
         
         .map-container { height: 280px; }
@@ -572,7 +584,8 @@
         }
 
         .map-container iframe {
-            filter: grayscale(40%) sepia(20%) hue-rotate(320deg) contrast(120%);
+            /* Tono más cálido para el mapa, acorde a la paleta */
+            filter: grayscale(30%) sepia(40%) hue-rotate(330deg) contrast(110%);
         }
 
         /* Formularios */
@@ -588,27 +601,28 @@
         .form-input {
             width: 100%;
             padding: 16px;
-            background: rgba(26, 0, 0, 0.7);
-            border: 1px solid rgba(212, 175, 55, 0.5);
+            background: rgba(90, 10, 10, 0.5); /* Rojizo oscuro en vez de negro */
+            border: 1px solid rgba(212, 175, 55, 0.6);
             color: var(--text-light);
             font-family: 'Montserrat', sans-serif;
             font-size: 15px; 
             border-radius: 6px;
             outline: none;
-            transition: border 0.3s, box-shadow 0.3s;
+            transition: border 0.3s, box-shadow 0.3s, background 0.3s;
         }
 
         .form-input:focus {
             border-color: var(--main-primary);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+            background: rgba(120, 15, 15, 0.6);
         }
 
         .form-input::placeholder {
-            color: rgba(212, 197, 197, 0.6);
+            color: rgba(240, 230, 230, 0.7);
         }
         
         select.form-input option {
-            background: #2b0000;
+            background: #590505;
             color: var(--text-light);
             padding: 10px;
         }
@@ -620,14 +634,14 @@
 
         /* Ticket Digital Pase VIP */
         .digital-ticket {
-            background: linear-gradient(135deg, #3d0000 0%, #1a0000 100%);
+            background: linear-gradient(135deg, #660a0a 0%, #330000 100%);
             border: 2px solid var(--main-primary);
             border-radius: 15px;
             padding: 35px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 15px 35px rgba(50,0,0,0.9), inset 0 0 25px rgba(212, 175, 55, 0.15);
             margin: 0 auto;
             max-width: 320px;
         }
@@ -637,12 +651,12 @@
             position: absolute;
             width: 50px;
             height: 50px;
-            background: var(--bg-dark); 
+            background: rgba(65, 5, 5, 1); /* Coincide con el fondo del frame */
             border-radius: 50%;
             top: 50%;
             transform: translateY(-50%);
             border: 2px solid var(--main-primary);
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0 5px 10px rgba(40,0,0,0.8);
         }
         .digital-ticket::before {
             left: -27px;
@@ -664,7 +678,7 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            border-bottom: 1px dashed rgba(212, 175, 55, 0.5);
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.6);
             padding-bottom: 15px;
             font-weight: 700;
         }
@@ -675,7 +689,7 @@
             font-size: 12px;
             color: var(--text-muted);
             margin-top: 25px;
-            border-top: 1px dashed rgba(212, 175, 55, 0.5);
+            border-top: 1px dashed rgba(212, 175, 55, 0.6);
             padding-top: 20px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -711,7 +725,7 @@
             right: 30px;
             width: 65px;
             height: 65px;
-            background: linear-gradient(135deg, rgba(122,0,0,0.9), rgba(43,0,0,0.9));
+            background: linear-gradient(135deg, rgba(150,15,15,0.95), rgba(80,5,5,0.95));
             border: 2px solid var(--main-primary);
             border-radius: 50%;
             display: flex;
@@ -719,8 +733,8 @@
             align-items: center;
             z-index: 2000;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.8), 0 0 15px var(--magic-glow);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(50,0,0,0.8), 0 0 15px var(--magic-glow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
             visibility: hidden;
             transform: scale(0.8);
@@ -734,7 +748,7 @@
 
         #music-btn:hover {
             background: var(--main-primary);
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         #music-btn svg {
@@ -744,10 +758,10 @@
             transition: fill 0.3s;
         }
         #music-btn:hover svg {
-            fill: #2b0000;
+            fill: #4a0404;
         }
 
-        /* Animaciones */
+        /* Animaciones base */
         @keyframes pulse {
             0% { opacity: 0.5; }
             50% { opacity: 1; }
@@ -769,7 +783,7 @@
             .front-flap { border-left-width: 150px; border-right-width: 150px; border-top-width: 120px; }
             .wax-seal { top: 100px; }
             
-            .main-title { font-size: 70px; }
+            .main-title { font-size: 75px; }
             .info-block { padding: 35px 20px; }
             .names-list { font-size: 24px; }
             .countdown-box { width: 65px; padding: 12px 8px; }
@@ -797,8 +811,9 @@
         <div class="envelope-wrapper" onclick="openEnvelope()">
             <div class="front-flap"></div>
             <div class="wax-seal">
+                <!-- NUEVO SELLO: Corona/Flor de loto elegante -->
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 2L15 9H22L16.5 13.5L18.5 21L12 17L5.5 21L7.5 13.5L2 9H9L12 2Z"/>
+                    <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.55 18.55 20 18 20H6C5.45 20 5 19.55 5 19V18H19V19Z"/>
                 </svg>
             </div>
             <div class="envelope"></div>
@@ -822,7 +837,7 @@
                 <div class="section-tag scroll-anim fade-in delay-1">Mis XV Años</div>
                 <h1 class="main-title scroll-anim fade-in delay-2">Camila</h1>
                 
-                <img src="assets/hero.jpg" alt="Camila Hero" class="invitation-photo hero-photo scroll-anim fade-in delay-3">
+                <img src="assets/hero.jpg" alt="Camila Hero" class="invitation-photo hero-photo scroll-anim scale-up delay-3">
             </div>
 
             <!-- SECCIÓN FECHA Y COUNTDOWN -->
@@ -849,7 +864,7 @@
                     </div>
                 </div>
 
-                <img src="assets/foto1.jpg" alt="Camila Sesión 1" class="invitation-photo scroll-anim fade-in">
+                <img src="assets/foto1.jpg" alt="Camila Sesión 1" class="invitation-photo scroll-anim scale-up">
             </div>
 
             <!-- SECCIÓN CALENDARIO -->
@@ -911,7 +926,7 @@
                     Agregar al Calendario
                 </a>
 
-                <img src="assets/foto2.jpg" alt="Camila Sesión 2" class="invitation-photo scroll-anim fade-in" style="margin-top: 35px;">
+                <img src="assets/foto2.jpg" alt="Camila Sesión 2" class="invitation-photo scroll-anim scale-up" style="margin-top: 35px;">
             </div>
 
             <!-- SECCIÓN PADRES -->
@@ -919,7 +934,7 @@
                 <div class="info-label">Con la bendición de mis padres</div>
                 <div class="names-list">Alfredo y Selene</div>
                 
-                <img src="assets/foto3.jpg" alt="Camila Detalles" class="invitation-photo scroll-anim fade-in" style="margin-top: 30px;">
+                <img src="assets/foto3.jpg" alt="Camila Detalles" class="invitation-photo scroll-anim scale-up" style="margin-top: 30px;">
             </div>
 
             <!-- SECCIÓN RECEPCIÓN Y MAPA -->
@@ -933,7 +948,7 @@
                 </div>
                 <a href="https://maps.app.goo.gl/UVHgrd7PYi1h7Wdi6" target="_blank" class="btn-gold" style="width: auto;">Abrir en GPS</a>
 
-                <img src="assets/foto4.jpg" alt="Camila y Recepción" class="invitation-photo scroll-anim fade-in" style="margin-top: 35px;">
+                <img src="assets/foto4.jpg" alt="Camila y Recepción" class="invitation-photo scroll-anim scale-up" style="margin-top: 35px;">
             </div>
 
             <!-- SECCIÓN ITINERARIO -->
@@ -974,7 +989,7 @@
                     </div>
                 </div>
 
-                <img src="assets/foto5.jpg" alt="Camila Itinerario" class="invitation-photo scroll-anim fade-in" style="margin-top: 35px;">
+                <img src="assets/foto5.jpg" alt="Camila Itinerario" class="invitation-photo scroll-anim scale-up" style="margin-top: 35px;">
             </div>
 
             <!-- SECCIÓN VESTIMENTA Y REGALOS -->
@@ -983,7 +998,7 @@
                 <div class="info-value-main" style="font-size: 30px; margin-bottom: 12px;">Etiqueta</div>
                 <div style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: var(--text-light); margin-bottom: 15px; font-weight: 500;">Color de la noche: <span style="color: var(--main-primary); font-weight: bold; text-transform: uppercase;">Negro</span></div>
                 
-                <img src="assets/foto6.jpg" alt="Camila Estilo" class="invitation-photo scroll-anim fade-in" style="margin-bottom: 35px;">
+                <img src="assets/foto6.jpg" alt="Camila Estilo" class="invitation-photo scroll-anim scale-up" style="margin-bottom: 35px;">
 
                 <div class="divider-light"></div>
 
@@ -996,7 +1011,7 @@
                     Para mí el mejor regalo es contar con tu presencia, pero si deseas tener un detalle conmigo, contaremos con un buzón para lluvia de sobres en la recepción.
                 </div>
 
-                <img src="assets/foto7.jpg" alt="Camila Detalles Regalo" class="invitation-photo scroll-anim fade-in" style="margin-top: 35px;">
+                <img src="assets/foto7.jpg" alt="Camila Detalles Regalo" class="invitation-photo scroll-anim scale-up" style="margin-top: 35px;">
             </div>
 
             <!-- SECCIÓN PLAYLIST Y GALERÍA -->
@@ -1014,14 +1029,18 @@
                     Agregar Canciones
                 </a>
 
-                <img src="assets/foto8.jpg" alt="Camila Amigos" class="invitation-photo scroll-anim fade-in" style="margin-top: 40px; margin-bottom: 40px;">
+                <img src="assets/foto8.jpg" alt="Camila Amigos" class="invitation-photo scroll-anim scale-up" style="margin-top: 40px; margin-bottom: 40px;">
 
                 <div class="divider-light"></div>
 
                 <div class="info-label" style="margin-top: 25px;">Captura el Momento</div>
+                
+                <!-- NUEVO ICONO: Cámara fotográfica -->
                 <svg viewBox="0 0 24 24" style="width: 55px; height: 55px; fill: var(--main-primary); margin: 15px 0; filter: drop-shadow(0 0 10px var(--magic-glow));">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm16 2H4v1.97l8 4.66 8-4.66V6zm0 12v-8.46l-8 4.66-8-4.66V18h16z"/>
+                    <circle cx="12" cy="12" r="3.2"/>
+                    <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
                 </svg>
+
                 <div class="info-value-main" style="font-size: 26px; margin-bottom: 15px;">Galería en Vivo</div>
                 <div style="font-family: 'Montserrat', sans-serif; font-size: 15px; color: var(--text-light); padding: 0 10px; margin-bottom: 25px; line-height: 1.6;">
                     Ayúdanos a conservar los mejores recuerdos de este día. Sube las fotos y videos que tomes durante el evento a nuestra carpeta compartida.
@@ -1030,7 +1049,7 @@
                     Subir mis Fotos
                 </a>
 
-                <img src="assets/foto9.jpg" alt="Camila Recuerdos" class="invitation-photo scroll-anim fade-in" style="margin-top: 35px;">
+                <img src="assets/foto9.jpg" alt="Camila Recuerdos" class="invitation-photo scroll-anim scale-up" style="margin-top: 35px;">
             </div>
 
             <!-- SECCIÓN FRASE ESPECIAL -->
@@ -1042,7 +1061,7 @@
                     "La vida es un camino lleno de luces, y mis 15 será una de las más brillantes. ¡VEN A FESTEJARLO CONMIGO!"
                 </p>
 
-                <img src="assets/foto10.jpg" alt="Camila Especial" class="invitation-photo scroll-anim fade-in" style="margin-top: 40px;">
+                <img src="assets/foto10.jpg" alt="Camila Especial" class="invitation-photo scroll-anim scale-up" style="margin-top: 40px;">
             </div>
 
             <!-- SECCIÓN BOLETO VIP (Dinámico) -->
@@ -1099,13 +1118,13 @@
                     <button onclick="sendWish()" class="btn-gold" style="font-size: 15px; padding: 16px;">Enviar Mensaje</button>
                 </div>
 
-                <img src="assets/foto11.jpg" alt="Camila Despedida" class="invitation-photo scroll-anim fade-in" style="margin-top: 45px;">
+                <img src="assets/foto11.jpg" alt="Camila Despedida" class="invitation-photo scroll-anim scale-up" style="margin-top: 45px;">
 
             </div>
 
             <!-- FOOTER -->
-            <div style="padding: 25px 0; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(212, 175, 55, 0.3);">
-                <div style="font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 4px; color: var(--main-primary); font-weight: bold;">
+            <div style="padding: 30px 0; background: rgba(30,0,0,0.9); border-top: 1px solid rgba(212, 175, 55, 0.4);">
+                <div style="font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 4px; color: var(--main-primary); font-weight: bold; text-shadow: 0 0 5px rgba(212,175,55,0.3);">
                     INVYTIA PREMIUM
                 </div>
             </div>
@@ -1146,14 +1165,13 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15
+                threshold: 0.12
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        // Dejamos de observar el elemento una vez que ya animó para mejorar el rendimiento
                         observer.unobserve(entry.target);
                     }
                 });
@@ -1208,7 +1226,7 @@
         // Sistema de Partículas/Chispas
         function createFireflies() {
             const container = document.getElementById('fireflies-container');
-            const count = 40; 
+            const count = 45; 
             
             for (let i = 0; i < count; i++) {
                 const firefly = document.createElement('div');
